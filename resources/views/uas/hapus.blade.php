@@ -1,17 +1,14 @@
 <?php
 
-include(app_path('koneksi_uas.php'));
+use Illuminate\Support\Facades\DB;
 
 $id = $_GET['id'];
 
-$query = mysqli_query($conn,
-"DELETE FROM pendaftaran_baru WHERE id='$id'");
+DB::table('pendaftaran_baru')
+    ->where('id', $id)
+    ->delete();
 
-if($query){
-    header("Location: /data");
-    exit;
-}else{
-    echo "Data gagal dihapus";
-}
+header("Location: /data");
+exit;
 
 ?>

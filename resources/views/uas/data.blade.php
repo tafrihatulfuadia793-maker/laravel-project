@@ -1,7 +1,9 @@
 <?php
-include(app_path('koneksi_uas.php'));
 
-$query = mysqli_query($conn, "SELECT * FROM pendaftaran_baru");
+use Illuminate\Support\Facades\DB;
+
+$query = DB::table('pendaftaran_baru')->get();
+
 ?>
 
 <!DOCTYPE html>
@@ -169,30 +171,31 @@ tr:hover{
     <th>Aksi</th>
 </tr>
 
-<?php
+@php
 $no = 1;
-while($data = mysqli_fetch_assoc($query)){
-?>
+@endphp
+
+@foreach($query as $data)
 
 <tr>
 
-<td><?php echo $no++; ?></td>
-<td><?php echo $data['nama']; ?></td>
-<td><?php echo $data['tempat_lahir']; ?></td>
-<td><?php echo $data['tanggal_lahir']; ?></td>
-<td><?php echo $data['jenis_kelamin']; ?></td>
-<td><?php echo $data['sekolah_asal']; ?></td>
-<td><?php echo $data['jurusan1']; ?></td>
+<td>{{ $no++ }}</td>
+<td>{{ $data->nama }}</td>
+<td>{{ $data->tempat_lahir }}</td>
+<td>{{ $data->tanggal_lahir }}</td>
+<td>{{ $data->jenis_kelamin }}</td>
+<td>{{ $data->sekolah_asal }}</td>
+<td>{{ $data->jurusan1 }}</td>
 
 <td>
 
 <a class="edit"
-href="/edit?id=<?php echo $data['id']; ?>">
+href="/edit?id={{ $data->id }}">
 Edit
 </a>
 
 <a class="hapus"
-href="/hapus?id=<?php echo $data['id']; ?>"
+href="/hapus?id={{ $data->id }}"
 onclick="return confirm('Yakin ingin menghapus data ini?')">
 Hapus
 </a>
@@ -201,7 +204,7 @@ Hapus
 
 </tr>
 
-<?php } ?>
+@endforeach
 
 </table>
 

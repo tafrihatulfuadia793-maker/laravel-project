@@ -1,6 +1,6 @@
 <?php
 
-include(app_path('koneksi_uas.php'));
+use Illuminate\Support\Facades\DB;
 
 $id = $_POST['id'];
 $nama = $_POST['nama'];
@@ -16,27 +16,22 @@ $jurusan1 = $_POST['jurusan1'];
 $jurusan2 = $_POST['jurusan2'];
 $alasan = $_POST['alasan'];
 
-$query = mysqli_query($conn,
-"UPDATE pendaftaran_baru SET
-nama='$nama',
-tempat_lahir='$tempat_lahir',
-tanggal_lahir='$tanggal_lahir',
-jenis_kelamin='$jenis_kelamin',
-alamat='$alamat',
-sekolah_asal='$sekolah_asal',
-nilai_mtk='$nilai_mtk',
-nilai_binggris='$nilai_binggris',
-nilai_bindo='$nilai_bindo',
-jurusan1='$jurusan1',
-jurusan2='$jurusan2',
-alasan='$alasan'
-WHERE id='$id'");
+DB::table('pendaftaran_baru')
+    ->where('id', $id)
+    ->update([
+        'nama' => $nama,
+        'tempat_lahir' => $tempat_lahir,
+        'tanggal_lahir' => $tanggal_lahir,
+        'jenis_kelamin' => $jenis_kelamin,
+        'alamat' => $alamat,
+        'sekolah_asal' => $sekolah_asal,
+        'nilai_mtk' => $nilai_mtk,
+        'nilai_binggris' => $nilai_binggris,
+        'nilai_bindo' => $nilai_bindo,
+        'jurusan1' => $jurusan1,
+        'jurusan2' => $jurusan2,
+        'alasan' => $alasan,
+    ]);
 
-if($query){
-    header("Location: /data");
-    exit;
-}else{
-    echo "Data gagal diupdate : " . mysqli_error($conn);
-}
-
-?>
+header("Location: /data");
+exit;
